@@ -1,0 +1,44 @@
+<section class="page-heading" aria-labelledby="page-title">
+  <div>
+    <p class="eyebrow">MY WORKSPACE</p>
+    <h1 id="page-title">マイタスク</h1>
+    <p class="intro">やることを書き出して、今日の一歩を。</p>
+  </div>
+  <a href="#new-task" data-turbo="false" class="button button--primary mobile-add"><%= icon "plus" %>タスクを追加</a>
+</section>
+<section class="overview" aria-label="タスクの進捗">
+  <div class="overview-label"><span class="overview-icon"><%= icon "list" %></span><span>タスクの進み具合</span></div>
+  <div class="overview-count"><strong><%= @incomplete_count %></strong><span>未完了</span></div>
+  <div class="overview-count"><strong><%= @completed_count %></strong><span>完了</span></div>
+  <div class="overview-progress">
+    <div><span>達成率</span><strong><%= @completion_rate %>%</strong></div>
+    <progress max="100" value="<%= @completion_rate %>" aria-label="タスクの達成率"><%= @completion_rate %>%</progress>
+  </div>
+</section>
+<div class="workspace-grid">
+  <section class="task-panel" aria-labelledby="task-list-heading">
+    <div class="panel-heading"><h2 id="task-list-heading">タスク一覧</h2><span class="subtle">全 <%= @total_count %> 件</span></div>
+    <nav class="filter-tabs" aria-label="完了状態で絞り込み">
+      <% [["all", "すべて", @total_count], ["incomplete", "未完了", @incomplete_count], ["complete", "完了", @completed_count]].each do |status, label, count| %>
+        <%= link_to root_path(status: status), class: ["filter-tab", ("is-active" if @status == status)], aria: { current: (@status == status ? "page" : nil) } do %>
+          <%= label %><span><%= count %></span>
+        <% end %>
+      <% end %>
+    </nav>
+    <% if @tasks.any? %>
+      <ul class="task-list"><%= render @tasks %></ul>
+      <p class="list-note">未完了・優先度・期限の順に表示しています。</p>
+    <% else %>
+      <div class="empty-state">
+        <span class="empty-icon"><%= icon(@status == "incomplete" && @total_count.positive? ? "check" : "list") %></span>
+        <h3><%= @total_count.zero? ? "最初のタスクを追加しよう" : "#{@status == 'complete' ? '完了した' : '未完了の'}タスクはありません" %></h3>
+        <p><%= @total_count.zero? ? "小さな予定も、忘れたくないことも。まずは一つ、書き出してみましょう。" : (@status == "complete" ? "終わったタスクにチェックを入れると、ここに表示されます。" : "すべてのタスクが完了しました。おつかれさまです！") %></p>
+        <% if @total_count.zero? %><a class="text-link" data-turbo="false" href="#task_title">タスクを書き出す <span aria-hidden="true">↗</span></a><% end %>
+      </div>
+    <% end %>
+  </section>
+  <aside id="new-task" class="form-panel" aria-labelledby="new-task-heading">
+    <div class="form-heading"><span class="small-icon"><%= icon "plus" %></span><h2 id="new-task-heading">タスクを追加</h2></div>
+    <%= render "form", task: @task %>
+  </aside>
+</div>

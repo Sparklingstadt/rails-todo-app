@@ -1,0 +1,14 @@
+<li id="<%= dom_id(task) %>" class="task-row <%= 'is-completed' if task.completed? %>">
+  <%= button_to completion_task_path(task, status: @status), method: :patch, params: { task: { completed: task.completed? ? "0" : "1" } }, class: "completion-button", aria: { label: "#{task.title}を#{task.completed? ? '未完了に戻す' : '完了にする'}", pressed: task.completed? } do %>
+    <%= icon "check" if task.completed? %>
+  <% end %>
+  <div class="task-content">
+    <h3><%= link_to task.title, edit_task_path(task), class: "task-title" %></h3>
+    <% if task.description.present? %><p class="task-description"><%= task.description %></p><% end %>
+    <div class="task-meta">
+      <span class="priority priority--<%= task.priority %>"><span aria-hidden="true">●</span>優先度：<%= TasksHelper::PRIORITY_LABELS.fetch(task.priority) %></span>
+      <span class="due-date <%= 'is-overdue' if task.overdue? %>"><%= icon "calendar" %><%= task_due_label(task) %><%= "・期限超過" if task.overdue? %></span>
+    </div>
+  </div>
+  <%= link_to "編集", edit_task_path(task), class: "edit-link", aria: { label: "#{task.title}を編集" } %>
+</li>

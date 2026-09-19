@@ -1,0 +1,11 @@
+learn:
+  title: Railsのモデルを学ぶ
+  description: バリデーションを確認する
+  priority: 2
+  completed: false
+  due_on: <%= Date.current %>
+
+finished:
+  title: 開発環境を整える
+  priority: 1
+  completed: true

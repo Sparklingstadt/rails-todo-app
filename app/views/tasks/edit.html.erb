@@ -1,0 +1,13 @@
+<% content_for :title, "タスクを編集" %>
+<div class="detail-shell">
+  <%= link_to root_path, class: "back-link" do %><%= icon "arrow" %>タスク一覧に戻る<% end %>
+  <section class="form-panel detail-panel" aria-labelledby="edit-heading">
+    <p class="eyebrow">EDIT TASK</p>
+    <h1 id="edit-heading">タスクを編集</h1>
+    <%= render "form", task: @task %>
+    <div class="danger-zone">
+      <span>このタスクが不要になったら</span>
+      <%= button_to "タスクを削除", task_path(@task), method: :delete, class: "delete-button", form: { data: { turbo_confirm: "「#{@task.title}」を削除しますか？この操作は取り消せません。" } } %>
+    </div>
+  </section>
+</div>

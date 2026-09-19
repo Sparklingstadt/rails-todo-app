@@ -1,0 +1,9 @@
+<% content_for :title, "タスクを追加" %>
+<div class="detail-shell">
+  <%= link_to root_path, class: "back-link" do %><%= icon "arrow" %>タスク一覧に戻る<% end %>
+  <section class="form-panel detail-panel" aria-labelledby="new-heading">
+    <p class="eyebrow">NEW TASK</p>
+    <h1 id="new-heading">タスクを追加</h1>
+    <%= render "form", task: @task %>
+  </section>
+</div>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title><%= content_for(:title) || "マイタスク" %> | Tasknote</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="やることを書き出して、一つずつ。シンプルなタスク管理アプリ Tasknote。">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <a class="skip-link" data-turbo="false" href="#main">本文へスキップ</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <%= link_to root_path, class: "brand", aria: { label: "Tasknote ホーム" } do %>
+          <span class="brand-mark"><%= icon "check" %></span>
+          <span>Tasknote<span class="brand-dot">.</span></span>
+        <% end %>
+        <span class="header-date"><%= icon "calendar" %><%= l(Date.current, format: :header) %></span>
+      </div>
+    </header>
+    <main id="main" class="page-shell">
+      <% flash.each do |type, message| %>
+        <div class="flash flash--<%= type %>" role="<%= type == "alert" ? "alert" : "status" %>"><%= message %></div>
+      <% end %>
+      <%= yield %>
+    </main>
+    <footer class="site-footer"><span>Tasknote</span><span>一つずつ、自分のペースで。</span></footer>
+  </body>
+</html>

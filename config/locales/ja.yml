@@ -1,0 +1,26 @@
+ja:
+  date:
+    formats:
+      default: "%Y年%-m月%-d日"
+      short: "%Y/%-m/%-d"
+      header: "%Y年%-m月%-d日"
+  activerecord:
+    models:
+      task: タスク
+    attributes:
+      task:
+        title: タスク名
+        description: メモ
+        due_on: 期限
+        priority: 優先度
+        completed: 完了状態
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: を入力してください。
+      too_long: は%{count}文字以内で入力してください。
+      inclusion: を正しく選択してください。
+      invalid: を正しく入力してください。
+  helpers:
+    select:
+      prompt: 選択してください

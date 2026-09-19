@@ -1,0 +1,32 @@
+<%= form_with model: task, class: "task-form" do |form| %>
+  <% if task.errors.any? %>
+    <div class="form-errors" role="alert" tabindex="-1">
+      <p>入力内容を確認してください。</p>
+      <ul><% task.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= form.label :title do %>タスク名 <span class="required">必須</span><% end %>
+    <%= form.text_field :title, placeholder: "例：Railsのモデルを理解する", required: true, maxlength: 120, autocomplete: "off", aria: { invalid: task.errors[:title].any?, describedby: "title-hint" } %>
+    <span id="title-hint" class="field-hint">120文字以内</span>
+  </div>
+  <div class="field">
+    <%= form.label :description do %>メモ <span class="optional">任意</span><% end %>
+    <%= form.text_area :description, placeholder: "手順や、覚えておきたいこと", rows: 4, maxlength: 2000, aria: { invalid: task.errors[:description].any?, describedby: "description-hint" } %>
+    <span id="description-hint" class="field-hint">2,000文字以内</span>
+  </div>
+  <div class="field-row">
+    <div class="field">
+      <%= form.label :due_on, "期限" %>
+      <%= form.date_field :due_on, aria: { invalid: task.errors[:due_on].any? } %>
+    </div>
+    <div class="field">
+      <%= form.label :priority, "優先度" %>
+      <%= form.select :priority, priority_options, {}, aria: { invalid: task.errors[:priority].any? } %>
+    </div>
+  </div>
+  <%= form.button type: :submit, class: "button button--primary button--full" do %>
+    <%= icon(task.persisted? ? "check" : "plus") %><%= task.persisted? ? "変更を保存" : "タスクを追加" %>
+  <% end %>
+  <% if task.persisted? %><%= link_to "キャンセル", root_path, class: "cancel-link" %><% end %>
+<% end %>
